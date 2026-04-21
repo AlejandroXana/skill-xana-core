@@ -25,7 +25,7 @@ docs-user/      → Material base para documentación de usuarios finales
 ## Índice actual
 
 ### Arquitectura
-- `arquitectura/stack-produccion.md` — layout Docker, contenedores, ruta de sitios, repo compartido sin CI
+- `arquitectura/stack.md` — stack Docker unificado dev+prod (`wordpress-stack`), layout, repos involucrados, backups, multisite
 
 ### Runbooks
 - `runbooks/wp-cli-y-opcache.md` — patrón `--skip-plugins --skip-themes` y recarga FPM con `kill -USR2 1`
@@ -33,12 +33,15 @@ docs-user/      → Material base para documentación de usuarios finales
 ### Convenciones
 - `convenciones/git-flow.md` — flujo develop→master vía PR, push directo aceptado para hotfixes
 
+### Decisiones (ADR)
+- `decisiones/2026-04-21-unificar-stack-dev-prod.md` — adoptar `wordpress-stack` también en local para eliminar drift dev/prod
+
 ### Incidencias
 - `incidencias/2026-04-17-fatal-xana-text-domain.md` — `if (!XANA_THEME_TEXT_DOMAIN)` → fatal PHP 8
 - `incidencias/2026-04-21-fatal-callbacks-outlet.md` — callbacks huérfanos `\xana\outlet\theme\wp_login` → 500 en login
 - `incidencias/2026-04-21-update-wp-demolive-xanasystem.md` — desfase WP 5.9 vs WooCommerce 10, update core con wp-cli
 
-### Cambios, Decisiones, docs-dev, docs-user
+### Cambios, docs-dev, docs-user
 (Vacíos por ahora — añadir según crezca la plataforma)
 
 ## Mantenimiento
