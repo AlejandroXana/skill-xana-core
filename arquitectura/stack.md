@@ -26,12 +26,40 @@ Repositorio del stack:
 
 ## Repositorios involucrados
 
+Xana Core se divide en **tronco común** (todos los catálogos) y **rama DTC** (catálogos derivados, ver sección siguiente). Solo se listan los repos que pertenecen al ecosistema Xana Core; los de B2B, CDI/Newker y otros productos de Xana Technologies están fuera de scope.
+
+### Infraestructura
+
 | Repo | Contiene | Remote |
 |---|---|---|
 | `wordpress-stack` | Docker compose, VCL Varnish, nginx.conf, Dockerfiles, scripts del stack | `github.com:xana-technologies/wordpress-stack` |
-| `wp-content-xana` | `wp-content/` completo — temas, plugins custom, código Xana Core | `bitbucket.org:xana-technologies/wp-content-xana` |
 
-El `wp-content-xana` se clona dentro de `wordpress-stack/sites/<dominio>/wp-content/`. Se comparte entre múltiples sitios.
+Nota: existe un repo antiguo `bitbucket.org:xana-technologies/docker-wp` usado en stacks de dev locales históricos. **Es legacy** — el oficial unificado dev+prod es `wordpress-stack` (ver ADR `2026-04-21-unificar-stack-dev-prod.md`).
+
+### Tronco común (todo Xana Core)
+
+| Repo | Se clona en | Contiene |
+|---|---|---|
+| `bitbucket.org:xana-technologies/wp-content-xana` | `sites/<dominio>/wp-content/` | Tema `uncode-child` y código base. **Sin plugins** (en `.gitignore`) |
+| `bitbucket.org:xana-technologies/plugin-xanasettings` | `wp-content/plugins/XanaSettings/` (o `plugin-xanasettings/`) | Configuración global del tema Xana |
+| `bitbucket.org:xana-technologies/plugin-importacion` | `wp-content/plugins/wom-iCat-admin/` | Importación de catálogos |
+| `bitbucket.org:xana-technologies/plugin_favoritos` | `wp-content/plugins/wom-iCat-Favorites/` | Favoritos del usuario en catálogo |
+
+### Rama DTC (exclusivo)
+
+Un **DTC (Digital Tile Catalog)** es un catálogo que "cuelga" de un cliente proveedor: el proveedor sube su producto y ofrece a los DTCs la opción de republicar los mismos productos en la web del DTC. No todos los catálogos Xana Core son DTC — sí lo son si usan el plugin siguiente:
+
+| Repo | Se clona en | Contiene |
+|---|---|---|
+| `github.com:xana-technologies/plugin-dtc-templates` | `wp-content/plugins/xana-dtc-images/` (o `plugin-dtc-templates/`) | Plantillas/imágenes específicas de la rama DTC |
+
+### Clientes (personalización por catálogo)
+
+Por cada catálogo que lanzamos hay un repo `client-xana-<nombre>` que se clona dentro de `wp-content/themes/uncode-child/client/`. Contiene SCSS, `themeXanaSettings.json`, traducciones y `client-functions.php` (ver `CLAUDE.md` del cliente para guía).
+
+Ejemplos actuales: `client-xana-alfagres`, `client-xana-viterra`, `client-xana-tilecenter-dtc`, `client-xana-catalogo-digital`, `client-xana-matteo-kitchens`, `client-xana-laterrastone-dtc`.
+
+Cada catálogo nuevo → nuevo repo `client-xana-<nombre>` en `bitbucket.org:xana-technologies/`.
 
 ## Multisite
 
