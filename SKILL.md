@@ -26,6 +26,9 @@ docs-user/      → Material base para documentación de usuarios finales
 
 ### Arquitectura
 - `arquitectura/stack.md` — stack Docker unificado dev+prod (`wordpress-stack`), layout, repos involucrados, backups, multisite
+- `arquitectura/multisite-multiidioma.md` — los sitios del catálogo usan WP Multisite con un blog por idioma. Rationale histórico e implicaciones operativas.
+- `arquitectura/repos-wp-content.md` — inventario de repos git dentro de `wp-content/` (wp-content-xana + subrepos por plugin/tema), workspaces Bitbucket, y cuáles están deprecados.
+- `arquitectura/cache-invalidation.md` — 4 capas de cache (Varnish, Redis, transients `xanaTransient_*`, WP Rocket) y cómo se invalidan al final de `syncPimDatabase`. Incluye la convención del prefijo `xanaTransient_` y el patrón `X-Xana-No-Cache` para bypass selectivo por respuesta desde el backend (páginas personalizadas tipo wishlist/carrito sin hardcodear URLs en VCL).
 
 ### Runbooks
 - `runbooks/wp-cli-y-opcache.md` — patrón `--skip-plugins --skip-themes` y recarga FPM con `kill -USR2 1`
@@ -42,7 +45,10 @@ docs-user/      → Material base para documentación de usuarios finales
 - `incidencias/2026-04-21-update-wp-demolive-xanasystem.md` — desfase WP 5.9 vs WooCommerce 10, update core con wp-cli
 - `incidencias/2026-04-21-fatal-favorites-array-keys-null.md` — `array_keys(null)` en wom-iCat-Favorites corta single-product a mitad (faltaba packing y relacionados)
 
-### Cambios, docs-dev, docs-user
+### Cambios
+- `cambios/2026-04-28-transientservice-redis-aware.md` — `wom_iCat\Transient\TransientService` ahora consulta Redis (vía API del plugin redis-cache) en `countActive`/`getAllTransients`/`deleteAll`; antes solo miraba `wp_options` y reportaba 0 con Redis activo. Fallback SQL si Redis no está.
+
+### docs-dev, docs-user
 (Vacíos por ahora — añadir según crezca la plataforma)
 
 ## Mantenimiento
