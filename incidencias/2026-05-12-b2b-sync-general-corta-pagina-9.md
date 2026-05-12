@@ -38,6 +38,15 @@ Cada página procesada por b2b-sync genera ~50 tareas `woocommerce_run_product_a
 
 **Por qué a veces sí completa**: si la cantidad de productos cambiados es mayor, Action Scheduler tiene cola para más tiempo y mantiene wp-cron activo hasta el final. Es una carrera entre "termina la cola de WC" y "termina la sincronización".
 
+**Por qué el corte tiende a caer entre el lote 8 y el 11** (el usuario reporta "casi siempre a las 10"): no es un límite duro (no hay nada hardcodeado en el código), es el punto de equilibrio estadístico de la carrera entre las dos colas:
+
+- Cada lote sincronizado añade ~50 tareas `woocommerce_run_product_attribute_lookup_update_callback` a Action Scheduler.
+- AS procesa esas tareas a ~37/min (verificado: ~50 tareas en ~80s en el incidente).
+- Entre lote y lote pasan ~2 min (el tiempo real del lote + el tick del cron loopback).
+- En 2 min entran 50 tareas y AS procesa ~75 → **saldo neto: la cola se reduce ~25 tareas/ciclo**.
+
+Después de 8-11 lotes la cola que llevaba acumulada se vacía por completo. Cuando AS termina con cola vacía, deja de hacer loopback requests y, sin tráfico humano de madrugada, wp-cron no se vuelve a disparar. El número exacto fluctúa porque la velocidad de AS varía con la carga del servidor esa noche.
+
 ## Cómo confirmar el patrón
 
 ```bash
