@@ -44,7 +44,6 @@ docs-user/      → Material base para documentación de usuarios finales
 - `incidencias/2026-04-21-fatal-callbacks-outlet.md` — callbacks huérfanos `\xana\outlet\theme\wp_login` → 500 en login
 - `incidencias/2026-04-21-update-wp-demolive-xanasystem.md` — desfase WP 5.9 vs WooCommerce 10, update core con wp-cli
 - `incidencias/2026-04-21-fatal-favorites-array-keys-null.md` — `array_keys(null)` en wom-iCat-Favorites corta single-product a mitad (faltaba packing y relacionados)
-- `incidencias/2026-05-12-b2b-sync-general-corta-pagina-9.md` — b2b-sync de general se atasca a 450 productos cuando Action Scheduler vacía su cola y wp-cron HTTP deja de dispararse en horario nocturno
 
 ### Cambios
 - `cambios/2026-04-28-transientservice-redis-aware.md` — `wom_iCat\Transient\TransientService` ahora consulta Redis (vía API del plugin redis-cache) en `countActive`/`getAllTransients`/`deleteAll`; antes solo miraba `wp_options` y reportaba 0 con Redis activo. Fallback SQL si Redis no está.
