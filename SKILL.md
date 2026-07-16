@@ -44,6 +44,7 @@ docs-user/      → Material base para documentación de usuarios finales
 - `incidencias/2026-04-21-fatal-callbacks-outlet.md` — callbacks huérfanos `\xana\outlet\theme\wp_login` → 500 en login
 - `incidencias/2026-04-21-update-wp-demolive-xanasystem.md` — desfase WP 5.9 vs WooCommerce 10, update core con wp-cli
 - `incidencias/2026-04-21-fatal-favorites-array-keys-null.md` — `array_keys(null)` en wom-iCat-Favorites corta single-product a mitad (faltaba packing y relacionados)
+- `incidencias/2026-07-16-alfagres-transients-cron.md` — alfagres.com lento (load 5.5): `wp_options` a 970MB/318k transients (`xanaTransient_` filtros TTL 7d + `external_ip_address_` de WooCommerce geolocation con payloads Log4Shell); cron `delete_expired_transients` atascado 5 meses. Fix: `DISABLE_WP_CRON` + crontab `woman` con WP-CLI `--due-now`. Load 5.5→0.52
 
 ### Cambios
 - `cambios/2026-04-28-transientservice-redis-aware.md` — `wom_iCat\Transient\TransientService` ahora consulta Redis (vía API del plugin redis-cache) en `countActive`/`getAllTransients`/`deleteAll`; antes solo miraba `wp_options` y reportaba 0 con Redis activo. Fallback SQL si Redis no está.
