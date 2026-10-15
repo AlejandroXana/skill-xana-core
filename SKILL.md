@@ -31,6 +31,9 @@ docs-user/      → Material base para documentación de usuarios finales
 - `arquitectura/cache-invalidation.md` — 4 capas de cache (Varnish, Redis, transients `xanaTransient_*`, WP Rocket) y cómo se invalidan al final de `syncPimDatabase`. Incluye la convención del prefijo `xanaTransient_` y el patrón `X-Xana-No-Cache` para bypass selectivo por respuesta desde el backend (páginas personalizadas tipo wishlist/carrito sin hardcodear URLs en VCL).
 
 ### Runbooks
+- **Skill aparte `actualizar-core`** — subir el Xana Core de un cliente de versión: procedimiento,
+  fallos conocidos según la versión de origen (fatales de PHP 8, el salto de Uncode 2.11.3),
+  migración del `themeXanaSettings.json` y los pasos manuales del escritorio de WordPress.
 - `runbooks/wp-cli-y-opcache.md` — patrón `--skip-plugins --skip-themes` y recarga FPM con `kill -USR2 1`
 
 ### Convenciones
@@ -49,6 +52,9 @@ docs-user/      → Material base para documentación de usuarios finales
 - `incidencias/2026-10-15-selector-idioma-mlp-cache-busqueda.md` — Keros: el selector ES/EN de la portada llevaba a `/search/FONTANA/`. La caché `nav_menu.item_filter` de MultilingualPress usa solo el path como clave y, con Redis, una búsqueda `/?s=X` contamina el menú de la portada. Solo afecta a los selectores hechos con elementos de menú `mlp_language`; el `selector__idioma` de Xana Core es seguro. Fix: desactivar esa caché, purgar Varnish y borrar las claves de Redis. Checklist de migración en `arquitectura/multisite-multiidioma.md`
 
 ### Cambios
+- `incidencias/2026-09-09-profile-php-truncado-subcatalogos.md` — perfil de usuario que se corta a media página: `in_array()` sobre `get_user_meta(...,true)` vacío = fatal en PHP 8, silenciado por `WP_DISABLE_FATAL_ERROR_HANDLER`. El fix (`34037f547`) está en master; la máquina corría una rama suelta 34 commits por detrás.
+- `cambios/2026-09-09-urls-core-antiguo-a-nuevo.md` — migrar enlaces del core antiguo (`?idfamilia=N`, `?ucat=N`) a las rutas nuevas por slug de familia (`/{familia}/familia/series|product/`) y a los filtros `?aspecto=` / `?estancia=`. Incluye cómo sacar el mapeo por idioma en un multisite y la trampa de los content blocks EN copiados del ES.
+- `cambios/2026-10-15-menu-center-split-responsive.md` — entre 1025 y 1366 px el menú `menu-center-split` partía los enlaces en dos líneas (la flecha debajo del texto), la cabecera crecía a 120 px y el logo encogía hasta 53 px. Causa: columnas laterales fijas (160/120px), `white-space: normal` y logo con `flex-shrink: 1`. Fix en la rama `fix/menu-center-split-responsive`; en adex, replicado en el client.
 - `cambios/2026-04-28-transientservice-redis-aware.md` — `wom_iCat\Transient\TransientService` ahora consulta Redis (vía API del plugin redis-cache) en `countActive`/`getAllTransients`/`deleteAll`; antes solo miraba `wp_options` y reportaba 0 con Redis activo. Fallback SQL si Redis no está.
 
 ### docs-dev, docs-user
