@@ -20,6 +20,31 @@ No se migra a plugins de traducción estándar porque el flujo de importación, 
 
 El plugin `multilingualpress` es el que conecta los blogs entre sí (relaciones de traducción entre posts equivalentes en distintos idiomas). La función `check_current_language_importer()` del plugin wom-iCat-admin detecta el idioma vía `multilingualpress_site_settings` o por `get_locale()` si no es multisite.
 
+### Selector de idioma y caché de MultilingualPress
+
+Hay dos formas de pintar el selector, y solo una es segura con object cache persistente (Redis):
+
+| Selector | Cómo se reconoce | Caché que usa | Con Redis |
+|---|---|---|---|
+| **Xana Core** (recomendado) | `<li class='selector__idioma language-switcher'>`, shortcode `multisite_language_selector_widget` (`wom_iCat/includes/functionsMLP.php`) | `api.translation`: la clave lleva tipo de contexto y término buscado | ✅ seguro |
+| **Menú de MLP** | elementos de menú de tipo `mlp_language` (`menu-item-type-mlp_language` en el HTML) | `nav_menu.item_filter`: la clave **solo lleva el path**, sin query string | ❌ una búsqueda `/?s=X` contamina el menú de la portada |
+
+Incidencia completa: `incidencias/2026-10-15-selector-idioma-mlp-cache-busqueda.md`.
+
+**Checklist al migrar a Docker (o activar Redis) un catálogo con varios blogs:**
+
+1. Comprobar si usa elementos de menú de MLP:
+   ```bash
+   for u in $(wp site list --field=url); do
+     echo "$u $(wp --url=$u post list --post_type=nav_menu_item --meta_key=_menu_item_type --meta_value=mlp_language --format=count)"
+   done
+   ```
+2. Si alguno da > 0: **desactivar `nav_menu.item_filter`** (Escritorio de red → MultilingualPress →
+   Caché, o con WP-CLI tal como se explica en la incidencia). Guardar el array completo: si la opción
+   no existe, MLP usa sus valores por defecto, con todo a `true`.
+3. Verificar después de la migración: pedir `/?s=PRUEBA`, luego `/`, y comprobar que los enlaces
+   del selector no contienen `/search/`. El script de `diagnostico-servidor` ya lo comprueba.
+
 ## Implicaciones operativas
 
 ### Backups y migración
