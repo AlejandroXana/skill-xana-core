@@ -17,7 +17,7 @@ piezas se repiten, si hay más se eligen al azar; con 2 caras, tablero de ajedre
 ```json
 "fichaProducto": {
   "galeria_modo": "imagenes",            // "imagenes" (por defecto) | "3d" | "ambos"
-  "visor3d": { "grosor_defecto_mm": 10, "junta_mm": 2, "logo_dorso": 123, "texto_dorso": "…" }  - Dorso como Porcemall: nervaduras anchas y lisas (12 mm de cara, surco de 4 mm) y el logo del cliente marcado en la cerámica (sin color,
+  "visor3d": { "grosor_defecto_mm": 10, "junta_mm": 2, "logo_dorso": 123, "texto_dorso": "…" }  - Dorso como Porcemall: nervaduras finas (4 mm, paso 8 mm; Alejandro probó franjas lisas de 12 mm y prefirió las finas) y el logo del cliente marcado en la cerámica (sin color,
   bajorrelieve con bumpMap) en franjas repetidas cada ~18 cm; logo discreto (alto máx. 26 mm o 9 % del lado corto).
   Logo = `logo_dorso` (ID de adjunto o URL; `""` lo quita) → `custom_logo` → opciones de Uncode `_uncode_logo`,
   `_uncode_logo_light`, `_uncode_logo_dark` (solo si son imágenes). La silueta sale del alfa del PNG/SVG (o del
