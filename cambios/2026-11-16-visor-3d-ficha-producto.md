@@ -17,9 +17,12 @@ piezas se repiten, si hay más se eligen al azar; con 2 caras, tablero de ajedre
 ```json
 "fichaProducto": {
   "galeria_modo": "imagenes",            // "imagenes" (por defecto) | "3d" | "ambos"
-  "visor3d": { "grosor_defecto_mm": 10, "junta_mm": 2 }   // opcional
+  "visor3d": { "grosor_defecto_mm": 10, "junta_mm": 2, "texto_dorso": "…" }   // opcional
 }
 ```
+- Dorso: relieve de tacos + nombre sellado en azul (letras ~18 mm, filas al tresbolillo). Texto = `texto_dorso`
+  o, si no está, el nombre de la web (`blogname`); `""` lo quita. Lleva luz propia (emissiveMap) porque el
+  RoomEnvironment es oscuro por detrás y el dorso salía gris.
 - `ambos`: selector "Imágenes / Vista 3D" encima de la galería; three.js solo se descarga al pulsar 3D.
 - `3d`: arranca el visor; si falla (sin WebGL, textura bloqueada por CORS…) se ve la galería, que siempre va en el HTML.
 - Filtros: `xana_visor3d_data` (ajustar datos o devolver null para desactivar en un producto),
