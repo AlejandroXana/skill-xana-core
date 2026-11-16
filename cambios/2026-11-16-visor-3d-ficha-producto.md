@@ -7,7 +7,9 @@ replicando el de Porcemall (artifact "Visor 3D Egeo Ivory", three.js 0.170).
 No hay modelo 3D: la pieza es un `RoundedBoxGeometry` a escala real (ancho × alto × grosor) con la foto de la
 cara como textura frontal; canto y dorso genéricos. Controles (sin miniaturas de caras: Alejandro no quiere otra "galería" bajo el visor): "Mezclar" (en una pieza, otra
 cara al azar con giro; en colocadas, nuevo reparto), una pieza / colocadas
-con junta en rejilla fija 2×2 / 4×4 / 6×6 a elegir (caras al azar sin dos iguales vecinas: si hay menos caras que
+con junta en rejilla fija 2×2 / 4×4 / 6×6 y colocación recta, trabada ½ o trabada ⅓ (filas desplazadas, la junta
+va por filas; al cambiar se deslizan) a elegir. Caras al azar sin dos iguales vecinas (con trabada una pieza toca
+hasta 6: búsqueda con vuelta atrás; 2 caras en trabada es imposible → reparto con menos repeticiones; si hay menos caras que
 piezas se repiten, si hay más se eligen al azar; con 2 caras, tablero de ajedrez; botón "Mezclar" para barajar de nuevo), cotas mm + pulgadas, luz estudio / ventana, pantalla completa. El acabado del PIM fija la rugosidad
 (pulido/lappato brilla, satinado medio, resto mate).
 
@@ -46,6 +48,8 @@ Modos `ambos` y `3d`, cambio de cara, colocadas 2×2, luz, vuelta a imágenes (S
 sin scroll horizontal, producto sin caras y pieza especial → galería normal sin cargar assets del visor.
 
 ## Pendiente / ojo
+- Las animaciones van con requestAnimationFrame: en una pestaña oculta (o el panel del navegador de Claude oculto)
+  se paran y la cola de acciones espera; al volver a la vista siguen. Al probar, mostrar el panel.
 - Fase 2: cambio de formato entre productos hermanos (misma serie/color/acabado) con la animación de recorte de la demo.
 - Si un cliente sirve uploads desde S3/CDN, el bucket necesita CORS para que WebGL use las texturas (si no, cae a galería).
 - El nginx local se cae si `php74-cmp` está parado (vhost cmp-antes): `docker start php74-cmp && docker restart nginx`.
