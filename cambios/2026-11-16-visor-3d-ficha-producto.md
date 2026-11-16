@@ -5,7 +5,8 @@ replicando el de Porcemall (artifact "Visor 3D Egeo Ivory", three.js 0.170).
 
 ## Qué es
 No hay modelo 3D: la pieza es un `RoundedBoxGeometry` a escala real (ancho × alto × grosor) con la foto de la
-cara como textura frontal; canto y dorso genéricos. Controles: caras (giro de la pieza), una pieza / colocadas
+cara como textura frontal; canto y dorso genéricos. Controles (sin miniaturas de caras: Alejandro no quiere otra "galería" bajo el visor): "Mezclar" (en una pieza, otra
+cara al azar con giro; en colocadas, nuevo reparto), una pieza / colocadas
 con junta en rejilla fija 2×2 / 4×4 / 6×6 a elegir (caras al azar sin dos iguales vecinas: si hay menos caras que
 piezas se repiten, si hay más se eligen al azar; con 2 caras, tablero de ajedrez; botón "Mezclar" para barajar de nuevo), cotas mm + pulgadas, luz estudio / ventana, pantalla completa. El acabado del PIM fija la rugosidad
 (pulido/lappato brilla, satinado medio, resto mate).
